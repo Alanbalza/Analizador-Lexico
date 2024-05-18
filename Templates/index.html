@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis Léxico</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="br-cols">
+            <form method="post">
+                <textarea id="inputText" name="inputText" rows="20" cols="50"></textarea><br>
+                <div id="buttons">
+                    <button type="submit">Análisis léxico</button>
+                    <button type="button" onclick="clearTable()">Limpiar</button>
+                </div>
+            </form>
+        </div>
+        <div class="br-cols">
+            <table id="lexicalTable">
+                <thead>
+                    <tr>
+                        <th>TOKEN</th>
+                        <th>PR</th>
+                        <th>ID</th>
+                        <th>SIM</th>
+                        <th>LPAR</th>
+                        <th>RPAR</th>
+                        <th>ERROR</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    {% for token in tokens %}
+                    <tr>
+                        <td>{{ token.value }}</td>
+                        <td>{{ 'X' if token.type in reserved.values() else '' }}</td>
+                        <td>{{ 'X' if token.type == 'ID' or token.type in polla.values() else '' }}</td>
+                        <td>{{ 'X' if token.type in ['COMMA', 'MINUS'] else '' }}</td>
+                        <td>{{ 'X' if token.type == 'LPAREN' else '' }}</td>
+                        <td>{{ 'X' if token.type == 'RPAREN' else '' }}</td>
+                        <td>{{ 'X' if token.type == 'ERROR' else '' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+<script>
+    function clearTable() {
+        document.getElementById("tableBody").innerHTML = "";
+    }
+</script>
+</html>
